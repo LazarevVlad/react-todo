@@ -1,10 +1,10 @@
 import {Todo} from './components/Todo';
-import styles from '../styles/index.module.css';
+import styles from './styles/index.module.css';
 
 function App() {
   console.log(styles)
   return (
-    <div >
+    <div className={styles.App}>
         <Todo/>
     </div>
   );
