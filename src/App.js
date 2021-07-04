@@ -1,11 +1,10 @@
-import {Todo} from './components/Todo';
+import {TodoContainer} from './components/TodoContainer';
 import styles from './styles/index.module.css';
 
 function App() {
-  console.log(styles)
   return (
     <div className={styles.App}>
-        <Todo/>
+        <TodoContainer/>
     </div>
   );
 }

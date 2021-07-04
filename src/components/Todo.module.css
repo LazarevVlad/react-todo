@@ -1,0 +1,18 @@
+.check {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+}
+
+.check.done{
+    background-color: white;
+}
+
+.todo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo > * + * {
+    margin-left: 10px;
+}
