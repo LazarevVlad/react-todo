@@ -1,7 +1,4 @@
 import React, { useReducer } from 'react';
-import { check, done } from '../styles/check.module.css';
-import { todoItem } from '../styles/todoItem.module.css';
-import { todo } from '../styles/todo.module.css';
 import { todoList } from '../styles/todoList.module.css';
 
 import { Todo } from './Todo';
