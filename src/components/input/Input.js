@@ -4,10 +4,20 @@ import buttonStyles from '../button.module.css';
 import inputStyles from './input.module.css';
 
 export const Input = ({initialValue, onSubmit, buttonCaption}) => {
-  const [value, setValue] = useState(initialValue || '')
+  const [buttonDisable, setButtonDisable] = useState(true);
+  const [value, setValue] = useState(initialValue || '');
   useEffect(() => {
     setValue(initialValue)
-  }, [initialValue])
+  }, [initialValue]);
+
+  useEffect(() => {
+    if (value.length === 0) {
+      setButtonDisable(true);
+    } else {
+      setButtonDisable(false);
+    }
+  })
+  console.log(value.length);
 
   return (
     <form onSubmit={(e) => {
@@ -18,7 +28,7 @@ export const Input = ({initialValue, onSubmit, buttonCaption}) => {
       }
     }}>
       <input className={inputStyles.input} placeholder='add todo' value={value} onChange={(e) => {setValue(e.target.value)}} />
-      <button type="submit" className={buttonStyles.button}>
+      <button type="submit" className={buttonStyles.button} disabled={buttonDisable}>
           {buttonCaption}
       </button>
     </form>

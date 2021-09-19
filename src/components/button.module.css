@@ -4,7 +4,7 @@
   display: inline-block;
   padding: 10px 15px;
   border: 1px solid rgba(255, 255, 255, .4);
-  background: none;
+  background-color: transparent;
   font-weight: 300;
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 2px;
@@ -51,5 +51,18 @@
   transition: 0s ease opacity .4s, .2s ease height .4s, .2s ease width .6s;
 }
 .button:hover {
-  background: rgba(255, 255, 255, .2);
+  background-color: rgba(255, 255, 255, .2);
+}
+
+button[disabled] {
+  opacity: 0.5;
+}
+
+button[disabled]:hover {
+  background-color: transparent;
+}
+
+button[disabled]:hover:after,
+button[disabled]:hover:before {
+  content: none;
 }
