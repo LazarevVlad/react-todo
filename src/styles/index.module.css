@@ -1,6 +1,9 @@
 .App{
+  width: 100vw;
+  height: 100%;
   display: flex;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
-  background-color: #808080;
+  background-color: #111827;
 }

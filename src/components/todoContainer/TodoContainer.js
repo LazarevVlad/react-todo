@@ -1,9 +1,9 @@
 import React from 'react';
-import { todoList } from '../styles/todoList.module.css';
-import { Todo } from './Todo';
-import { Input } from './input/Input';
+import { todoList } from './todoList.module.css';
+import { Todo } from '../todo/Todo';
+import { Input } from '../input/Input';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodoEvent, editEvent, updateEvent, doneEvent } from '../actions';
+import { addTodoEvent, editEvent, updateEvent, doneEvent } from '../../actions';
 
 
 export const TodoContainer = () => {
@@ -18,12 +18,12 @@ export const TodoContainer = () => {
         <div>
             <Input
                 initialValue={input}
-                buttonCaption={editingIndex === null ? 'Добавить' : 'Изменить'}
+                buttonCaption={editingIndex === null ? 'Add' : 'Edit'}
                 onSubmit={
                   (text) => {addTodo(text)}
                 }
             />
-            <ul className={todoList.todoList}>
+            <ul className={todoList}>
                 {todos.map((item, index) =>
                     <Todo
                         key={index}

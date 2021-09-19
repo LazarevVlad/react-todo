@@ -1,4 +1,4 @@
-import {TodoContainer} from './components/TodoContainer';
+import {TodoContainer} from './components/todoContainer/TodoContainer';
 import styles from './styles/index.module.css';
 import { createStore } from "redux";
 import { Provider } from 'react-redux';

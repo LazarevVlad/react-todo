@@ -1,0 +1,49 @@
+.check {
+  position: relative;
+  flex-shrink: 0;
+  margin-right: 0;
+  margin-left: 5px;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background-color:transparent;
+  border: 1px solid white;
+  border-radius: 50%;
+  z-index: 2;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.check:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%) scale(0);
+  background-image: url("data:image/svg+xml,%3Csvg width='11' height='9' viewBox='0 0 11 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.6962 0.2821C11.0926 0.666571 11.1024 1.29966 10.7179 1.69615L4.23646 8.38014L0.339385 4.95071C-0.0752229 4.58586 -0.115556 3.95398 0.249299 3.53937C0.614154 3.12477 1.24603 3.08443 1.66064 3.44929L4.1272 5.61986L9.28211 0.303855C9.66658 -0.0926305 10.2997 -0.10237 10.6962 0.2821Z' fill='%23fff'/%3E%3C/svg%3E%0A");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: all 0.1s linear;
+}
+
+.done:after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+
+
+.todo {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+.todo p {
+  width: 100%;
+  margin: 0;
+  color: white;
+}

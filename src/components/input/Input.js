@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import buttonStyles from '../button.module.css';
+import inputStyles from './input.module.css';
 
 export const Input = ({initialValue, onSubmit, buttonCaption}) => {
   const [value, setValue] = useState(initialValue || '')
@@ -15,8 +17,8 @@ export const Input = ({initialValue, onSubmit, buttonCaption}) => {
         setValue('')
       }
     }}>
-      <input placeholder='todo' value={value} onChange={(e) => {setValue(e.target.value)}} />
-      <button type="submit">
+      <input className={inputStyles.input} placeholder='add todo' value={value} onChange={(e) => {setValue(e.target.value)}} />
+      <button type="submit" className={buttonStyles.button}>
           {buttonCaption}
       </button>
     </form>

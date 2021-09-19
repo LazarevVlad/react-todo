@@ -1,0 +1,9 @@
+.todoList {
+  margin: 0;
+  margin-top: 20px;
+  padding: 0 15px;
+}
+
+.todoList > * + * {
+  margin-top: 15px;
+}
