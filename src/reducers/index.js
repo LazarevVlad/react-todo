@@ -39,17 +39,31 @@ export const reducer = (state = initialState, action) => {
         }
     }
     case ACTION_TYPE.DONE: {
-        // {type: 'done', editIndex: 4}
         const todos = [...state.todos]
         const currentTodo = todos[action.editIndex]
         todos[action.editIndex] = { ...currentTodo, done: !currentTodo.done }
+        console.log('Done')
+        console.log(currentTodo)
+        console.log(todos)
 
         return {
             ...state,
             todos,
         }
     }
+    case ACTION_TYPE.DELETE: {
+      const todos = [...state.todos]
+      const index = action.editIndex
+      // let newtodos = todos.filter((todo)=>todo[index] !== index)
+      console.log(action);
+      // console.log(newtodos);
+
+      return {
+        ...state,
+      }
+    }
     default:
         return state
-}
+      }
+
 }

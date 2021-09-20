@@ -17,7 +17,6 @@ export const Input = ({initialValue, onSubmit, buttonCaption}) => {
       setButtonDisable(false);
     }
   })
-  console.log(value.length);
 
   return (
     <form onSubmit={(e) => {

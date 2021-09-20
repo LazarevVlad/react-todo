@@ -4,6 +4,7 @@ export const ACTION_TYPE = {
   EDIT: "EDIT_TODO",
   TYPE: "TYPE_TODO",
   DONE: "DONE_TODO",
+  DELETE: 'DELETE_TODO',
 }
 
 // action creator
@@ -24,5 +25,10 @@ export const updateEvent = (text) => ({
 
 export const doneEvent = (editIndex) => ({
   type: ACTION_TYPE.DONE,
+  editIndex
+})
+
+export const deleteEvent = (editIndex) => ({
+  type: ACTION_TYPE.DELETE,
   editIndex
 })

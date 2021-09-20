@@ -3,7 +3,7 @@ import { todoList } from './todoList.module.css';
 import { Todo } from '../todo/Todo';
 import { Input } from '../input/Input';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodoEvent, editEvent, updateEvent, doneEvent } from '../../actions';
+import { addTodoEvent, editEvent, updateEvent, doneEvent, deleteEvent } from '../../actions';
 
 
 export const TodoContainer = () => {
@@ -33,6 +33,7 @@ export const TodoContainer = () => {
                             dispatch(editEvent(index))
                         }}
                         onDoneClick={() => { dispatch(doneEvent(index)) }}
+                        onDeleteClick={() => { dispatch(deleteEvent(index))}}
                     />
                 )}
             </ul>
