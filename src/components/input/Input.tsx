@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+// import React, { useEffect, useState } from 'react';
+// import PropTypes from 'prop-types';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import buttonStyles from '../button.module.css';
 import inputStyles from './input.module.css';
 
-export const Input = ({initialValue, onSubmit, buttonCaption}) => {
+type Input = {
+  initialValue: string,
+  onSubmit: Function,
+  buttonCaption: string,
+}
+
+export const Input = ({initialValue, onSubmit, buttonCaption}: Input) => {
   const [buttonDisable, setButtonDisable] = useState(true);
   const [value, setValue] = useState(initialValue || '');
   useEffect(() => {
@@ -33,10 +41,3 @@ export const Input = ({initialValue, onSubmit, buttonCaption}) => {
     </form>
   )
 }
-
-Input.propTypes = {
-  initialValue: PropTypes.string,
-  onSubmit: PropTypes.func,
-  buttonCaption: PropTypes.string.isRequired
-}
-

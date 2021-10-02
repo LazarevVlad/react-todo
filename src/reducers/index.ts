@@ -1,18 +1,40 @@
 import { ACTION_TYPE } from '../actions/index';
 
-const initialState = {
+
+type Todo = {
+  value: string
+  done: boolean
+}
+
+
+type State = {
+  input: string,
+  editingIndex: number,
+  todos: Todo[] 
+}
+
+const initialState: State = {
   input: '',
-  editingIndex: null,
+  editingIndex: NaN,
   todos: [],
 }
 
-export const reducer = (state = initialState, action) => {
+type AddAction = {type: 'ADD_TODO', text: string}
+type UpdateAction = {type: 'UPDATE_TODO', text: string}
+type TypeAction = {type: 'TYPE_TODO', text: string}
+type EditAction = {type: 'EDIT_TODO', editIndex: number}
+type DoneAction = {type: 'DONE_TODO', editIndex: number}
+type DeleteAction = {type: 'DELETE_TODO', editIndex: number}
+
+type Action = AddAction | UpdateAction | TypeAction | EditAction | DoneAction | DeleteAction
+
+export const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case ACTION_TYPE.ADD:
         return {
             todos: [...state.todos, { value: action.text, done: false }],
             input: '',
-            editingIndex: null
+            editingIndex: NaN
         }
     case ACTION_TYPE.UPDATE:
         const todos = [...state.todos]
@@ -21,7 +43,7 @@ export const reducer = (state = initialState, action) => {
         return {
             todos,
             input: '',
-            editingIndex: null
+            editingIndex: NaN
         }
     case ACTION_TYPE.TYPE:
         return {
@@ -40,6 +62,10 @@ export const reducer = (state = initialState, action) => {
     }
     case ACTION_TYPE.DONE: {
         const todos = [...state.todos]
+        // const arr = []
+        // for (let i=0; i< state.todos.length; i++) {
+        //     arr.push(state.todos[i])
+        // }
         const currentTodo = todos[action.editIndex]
         todos[action.editIndex] = { ...currentTodo, done: !currentTodo.done }
         console.log('Done')
@@ -52,14 +78,15 @@ export const reducer = (state = initialState, action) => {
         }
     }
     case ACTION_TYPE.DELETE: {
-      const todos = [...state.todos]
       const index = action.editIndex
-      // let newtodos = todos.filter((todo)=>todo[index] !== index)
-      console.log(action);
-      // console.log(newtodos);
+      const newtodos = state.todos.filter((todo, i) => i !== index)
+    
+      console.log(newtodos);
 
       return {
         ...state,
+        editingIndex: NaN,
+        todos: newtodos,
       }
     }
     default:

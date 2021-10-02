@@ -1,5 +1,5 @@
 import React from 'react';
-import { todoList } from './todoList.module.css';
+import todoList from './todoList.module.css';
 import { Todo } from '../todo/Todo';
 import { Input } from '../input/Input';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ export const TodoContainer = () => {
     const dispatch = useDispatch();
     const { todos, input, editingIndex } = useSelector((store) => store);
 
-    function addTodo(text) {
+    function addTodo(text: string) {
         dispatch(editingIndex === null ? addTodoEvent(text) : updateEvent(text))
     }
 
