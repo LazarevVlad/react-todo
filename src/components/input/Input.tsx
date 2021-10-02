@@ -7,7 +7,7 @@ import inputStyles from './input.module.css';
 
 type Input = {
   initialValue: string,
-  onSubmit: Function,
+  onSubmit: (inputValue: string) => void,
   buttonCaption: string,
 }
 
@@ -24,7 +24,7 @@ export const Input = ({initialValue, onSubmit, buttonCaption}: Input) => {
     } else {
       setButtonDisable(false);
     }
-  })
+  }, [value])
 
   return (
     <form onSubmit={(e) => {

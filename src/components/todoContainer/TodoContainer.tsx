@@ -1,14 +1,19 @@
 import React from 'react';
-import todoList from './todoList.module.css';
+import styles from './todoList.module.css';
 import { Todo } from '../todo/Todo';
 import { Input } from '../input/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodoEvent, editEvent, updateEvent, doneEvent, deleteEvent } from '../../actions';
-
+import { State } from '../../reducers';
 
 export const TodoContainer = () => {
     const dispatch = useDispatch();
-    const { todos, input, editingIndex } = useSelector((store) => store);
+    // const { todos, input, editingIndex } = useSelector<State, State>((store) => store);
+
+    const todos = useSelector<State, State['todos']>((store) => store.todos);
+    const input = useSelector<State, string>((store) => store.input);
+    const editingIndex = useSelector<State, State['editingIndex']>((store) => store.editingIndex);
+    
 
     function addTodo(text: string) {
         dispatch(editingIndex === null ? addTodoEvent(text) : updateEvent(text))
@@ -20,10 +25,10 @@ export const TodoContainer = () => {
                 initialValue={input}
                 buttonCaption={editingIndex === null ? 'Add' : 'Edit'}
                 onSubmit={
-                  (text) => {addTodo(text)}
+                  (text: string) => {addTodo(text)}
                 }
             />
-            <ul className={todoList}>
+            <ul className={styles.todoList}>
                 {todos.map((item, index) =>
                     <Todo
                         key={index}

@@ -1,5 +1,5 @@
 import { ACTION_TYPE } from '../actions/index';
-
+import { Action } from 'redux';
 
 type Todo = {
   value: string
@@ -7,43 +7,45 @@ type Todo = {
 }
 
 
-type State = {
+export type State = {
   input: string,
-  editingIndex: number,
+  editingIndex: number | null,
   todos: Todo[] 
 }
 
 const initialState: State = {
   input: '',
-  editingIndex: NaN,
+  editingIndex: null,
   todos: [],
 }
 
-type AddAction = {type: 'ADD_TODO', text: string}
-type UpdateAction = {type: 'UPDATE_TODO', text: string}
-type TypeAction = {type: 'TYPE_TODO', text: string}
-type EditAction = {type: 'EDIT_TODO', editIndex: number}
-type DoneAction = {type: 'DONE_TODO', editIndex: number}
-type DeleteAction = {type: 'DELETE_TODO', editIndex: number}
+export interface AddAction extends Action<'ADD_TODO'> { text: string }
+export interface UpdateAction extends Action<'UPDATE_TODO'> { text: string}
+export interface TypeAction extends Action<'TYPE_TODO'> { text: string}
+export interface EditAction extends Action<'EDIT_TODO'> {editIndex: number}
+export interface DoneAction extends Action<'DONE_TODO'> { editIndex: number}
+export interface DeleteAction extends Action<'DELETE_TODO'> {editIndex: number}
 
-type Action = AddAction | UpdateAction | TypeAction | EditAction | DoneAction | DeleteAction
+export type CustomAction = AddAction | UpdateAction | TypeAction | EditAction | DoneAction | DeleteAction
 
-export const reducer = (state: State = initialState, action: Action): State => {
+export const reducer = (state: State = initialState, action: CustomAction): State => {
   switch (action.type) {
     case ACTION_TYPE.ADD:
         return {
             todos: [...state.todos, { value: action.text, done: false }],
             input: '',
-            editingIndex: NaN
+            editingIndex: null
         }
     case ACTION_TYPE.UPDATE:
         const todos = [...state.todos]
-        todos[state.editingIndex] = { ...todos[state.editingIndex], value: action.text }
+        if (state.editingIndex !== null) {
+          todos[state.editingIndex] = { ...todos[state.editingIndex], value: action.text }
+        }
 
         return {
             todos,
             input: '',
-            editingIndex: NaN
+            editingIndex: null
         }
     case ACTION_TYPE.TYPE:
         return {

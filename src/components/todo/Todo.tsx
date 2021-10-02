@@ -4,9 +4,9 @@ import classes from './Todo.module.css';
 type Todo = {
   text: string,
   done: boolean,
-  onTextClick: Function,
-  onDoneClick: Function,
-  onDeleteClick: Function,
+  onTextClick: () => void,
+  onDoneClick: () => void,
+  onDeleteClick: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void,
 }
 
 export const Todo = ({text, done, onTextClick, onDoneClick, onDeleteClick}: Todo) => {
@@ -15,7 +15,7 @@ export const Todo = ({text, done, onTextClick, onDoneClick, onDeleteClick}: Todo
       <p onDoubleClick={(e) => {onTextClick()}}>{text}</p>
       <div className={classes.controls}>
         <div className={`${classes.check} ${done ? classes.done : ''}`} onClick={(e) => { onDoneClick() }}></div>
-        <span className={classes.delete} onClick={(e) => { onDeleteClick() }}></span>
+        <span className={classes.delete} onClick={(e) => { onDeleteClick(e) }}></span>
       </div>
     </li>
   )
