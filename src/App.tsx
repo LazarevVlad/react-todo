@@ -1,10 +1,7 @@
 import {TodoContainer} from './components/todoContainer/TodoContainer';
-import styles from './styles/index.module.css';
-import { createStore } from "redux";
 import { Provider } from 'react-redux';
-import { reducer } from './reducers';
-
-const store = createStore(reducer);
+import { store } from './store/store'
+import styles from './styles/index.module.css';
 
 function App() {
   return (

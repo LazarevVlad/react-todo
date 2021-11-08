@@ -10,9 +10,10 @@ export const ACTION_TYPE = {
 } as const
 
 // action creator
-export const addTodoEvent = (text: string):AddAction => ({
+export const addTodoEvent = (text: string, id: string):AddAction => ({
   type: ACTION_TYPE.ADD,
-  text
+  text,
+  id
 })
 
 export const editEvent = (editIndex: number):EditAction => ({

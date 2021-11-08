@@ -2,39 +2,53 @@ import { ACTION_TYPE } from '../actions/index';
 import { Action } from 'redux';
 
 type Todo = {
+  id: string,
   value: string
   done: boolean
 }
 
 
 export type State = {
+  isLoading: boolean | null,
   input: string,
   editingIndex: number | null,
-  todos: Todo[] 
+  todos: Todo[],
+  isSuccess: boolean | null,
 }
 
 const initialState: State = {
+  isLoading: false,
   input: '',
   editingIndex: null,
   todos: [],
+  isSuccess: null
 }
 
-export interface AddAction extends Action<'ADD_TODO'> { text: string }
+export interface AddAction extends Action<'ADD_TODO'> { text: string, id: string }
 export interface UpdateAction extends Action<'UPDATE_TODO'> { text: string}
 export interface TypeAction extends Action<'TYPE_TODO'> { text: string}
 export interface EditAction extends Action<'EDIT_TODO'> {editIndex: number}
 export interface DoneAction extends Action<'DONE_TODO'> { editIndex: number}
 export interface DeleteAction extends Action<'DELETE_TODO'> {editIndex: number}
+export interface SuccessAction extends Action<'SAVE_SUCCESS'> {}
+export interface FailedAction extends Action<'FAILED_EVENT'> {}
+export interface FetchingSuccess extends Action<'FETCHING_SUCCESS'> {
+  todos: Todo[];
+}
+export interface FetchingTodosSuccess extends Action<'FETCHING_TODOS_EVENT'> {}
+export interface FetchingTodosFailed extends Action<'FETCHING_FAILED'> {}
 
-export type CustomAction = AddAction | UpdateAction | TypeAction | EditAction | DoneAction | DeleteAction
+export type CustomAction = AddAction | UpdateAction | TypeAction | EditAction | DoneAction | DeleteAction | SuccessAction | FailedAction | FetchingSuccess | FetchingTodosSuccess | FetchingTodosFailed
 
 export const reducer = (state: State = initialState, action: CustomAction): State => {
   switch (action.type) {
     case ACTION_TYPE.ADD:
         return {
-            todos: [...state.todos, { value: action.text, done: false }],
+            todos: [...state.todos, { id: action.id, value: action.text, done: false }],
             input: '',
-            editingIndex: null
+            editingIndex: null,
+            isSuccess: null,
+            isLoading: false
         }
     case ACTION_TYPE.UPDATE:
         const todos = [...state.todos]
@@ -45,7 +59,9 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
         return {
             todos,
             input: '',
-            editingIndex: null
+            editingIndex: null,
+            isSuccess: null,
+            isLoading: false
         }
     case ACTION_TYPE.TYPE:
         return {
@@ -70,9 +86,6 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
         // }
         const currentTodo = todos[action.editIndex]
         todos[action.editIndex] = { ...currentTodo, done: !currentTodo.done }
-        console.log('Done')
-        console.log(currentTodo)
-        console.log(todos)
 
         return {
             ...state,
@@ -83,14 +96,32 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
       const index = action.editIndex
       const newtodos = state.todos.filter((todo, i) => i !== index)
     
-      console.log(newtodos);
-
       return {
         ...state,
-        editingIndex: NaN,
+        editingIndex: null,
         todos: newtodos,
       }
     }
+    case 'SAVE_SUCCESS': {
+      return { ...state, isSuccess: true }
+    }
+
+    case 'FAILED_EVENT': {
+      return { ...state, isSuccess: false }
+    }
+
+    case 'FETCHING_SUCCESS': {
+      return { ...state, todos: action.todos, isLoading: false}
+    }
+
+    case 'FETCHING_TODOS_EVENT': {
+      return { ...state, isLoading: true}
+    }
+
+    case 'FETCHING_FAILED': {
+      return { ...state, isLoading: false}
+    }
+      
     default:
         return state
       }

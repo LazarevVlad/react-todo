@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classes from './Todo.module.css';
 
-type Todo = {
+type TodoType = {
   text: string,
   done: boolean,
   onTextClick: () => void,
@@ -9,7 +9,7 @@ type Todo = {
   onDeleteClick: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void,
 }
 
-export const Todo = ({text, done, onTextClick, onDoneClick, onDeleteClick}: Todo) => {
+export const Todo = ({text, done, onTextClick, onDoneClick, onDeleteClick}: TodoType) => {
   return(
     <li className={classes.todo}>
       <p onDoubleClick={(e) => {onTextClick()}}>{text}</p>
