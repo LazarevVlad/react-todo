@@ -3,7 +3,7 @@ import { Action } from 'redux';
 
 type Todo = {
   id: string,
-  value: string
+  text: string
   done: boolean
 }
 
@@ -44,7 +44,7 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
   switch (action.type) {
     case ACTION_TYPE.ADD:
         return {
-            todos: [...state.todos, { id: action.id, value: action.text, done: false }],
+            todos: [...state.todos, { id: action.id, text: action.text, done: false }],
             input: '',
             editingIndex: null,
             isSuccess: null,
@@ -53,7 +53,7 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
     case ACTION_TYPE.UPDATE:
         const todos = [...state.todos]
         if (state.editingIndex !== null) {
-          todos[state.editingIndex] = { ...todos[state.editingIndex], value: action.text }
+          todos[state.editingIndex] = { ...todos[state.editingIndex], text: action.text }
         }
 
         return {
@@ -74,7 +74,7 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
 
         return {
             ...state,
-            input: todo.value,
+            input: todo.text,
             editingIndex: index
         }
     }

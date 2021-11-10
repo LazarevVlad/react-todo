@@ -57,26 +57,46 @@ function saveTodo(text: string) {
   }
 }
 
-function loadTodos() {
+//@ts-ignore
+function loadTodos(dispatch) {
+    dispatch(fetchingTodosEvent())
+    return fetch('https://aqueous-brook-08387.herokuapp.com/todos')
+    .then(res => res.json())
+    .then(res => dispatch(fetchingSuccess(res)))
+    .catch(err => console.log(err))
     //@ts-ignore
-    return async function fetchTodos(dispatch, getState) {
-        dispatch(fetchingTodosEvent())
+    // return async function fetchTodos(dispatch, getState) {
+    //     dispatch(fetchingTodosEvent())
         
-        try {
-          const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos`, {
-            'method': 'GET',
-          })
-          if (response.ok) {
-            const res = response.json();
-            //@ts-ignore
-            dispatch(fetchingSuccess(res))
-        } else {
-            dispatch(fetchingFailed())
-          }
-        } catch(err) {
-            dispatch(fetchingFailed())
-        }
+    //     try {
+    //       const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos`)
+          
+    //       if (response.ok) {
+    //         console.log(response)
+    //         const res = await response.json();
+    //         //@ts-ignore
+    //         dispatch(fetchingSuccess(res))
+    //     } else {
+    //         dispatch(fetchingFailed())
+    //       }
+    //     } catch(err) {
+    //         dispatch(fetchingFailed())
+    //     }
+    // }
+    
+}
+
+function EditTodo(id: string,text: string) {
+  //@ts-ignore
+  return async function name(dispatch, getState) {
+    try {
+      const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos${id}`, {
+        'method': 'PUT'
+      }) 
+    } catch(err) {
+
     }
+  }
 }
 
 export const TodoContainer = () => {
@@ -92,7 +112,7 @@ export const TodoContainer = () => {
       dispatch(editingIndex === null ? saveTodo(text) : updateEvent(text))
     }
     useEffect(() => {
-      loadTodos()
+      loadTodos(dispatch)
     }, [])
 
     return (
@@ -110,7 +130,7 @@ export const TodoContainer = () => {
                 {todos.map((item, index) =>
                     <Todo
                         key={index}
-                        text={item.value}
+                        text={item.text}
                         done={item.done}
                         onTextClick={() => {
                             dispatch(editEvent(index))
