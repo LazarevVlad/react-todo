@@ -6,6 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodoEvent, editEvent, updateEvent, doneEvent, deleteEvent } from '../../actions';
 import { State } from '../../reducers';
 import { nanoid } from 'nanoid';
+
+const headers = {
+  "Content-type": 'application/json',
+}
+
 //@ts-ignore
 const fetchingSuccess = (todos) => ({
   type: 'FETCHING_SUCCESS',
@@ -37,9 +42,7 @@ function saveTodo(text: string) {
         try {
         const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos`, {
             'method': 'POST',
-            'headers': {
-              "Content-type": 'application/json',
-            },
+            'headers': headers,
             body: JSON.stringify({
                 id,
                 text,
@@ -86,15 +89,48 @@ function loadTodos(dispatch) {
     
 }
 
-function EditTodo(id: string,text: string) {
+function EditTodo(index: number,text: string, todos: { id: any; }[]) {
+  let id = todos[index].id;
   //@ts-ignore
   return async function name(dispatch, getState) {
     try {
-      const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos${id}`, {
-        'method': 'PUT'
-      }) 
-    } catch(err) {
+      const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos/${id}`, {
+        'method': 'PUT',
+        'headers' : headers,
+        body: JSON.stringify({
+          text
+        })
+      })
+      if (response.ok) {
+        console.log(response)
+        dispatch(updateEvent(text))
+      } else {
+        console.log(response.status)
+      }
 
+    } catch(err) {
+      console.log(err)
+    }
+  }
+}
+
+function deleteTodo(index: number, todos: { id: any; }[]) {
+  let id = todos[index].id;
+  console.log(id)
+  //@ts-ignore
+  return async function deleteTodoThunk(dispatch, getState) {
+    try {
+      const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos/${id}`, {
+        'method': 'DELETE',
+        'headers' : headers,
+      })
+      if (response.ok) {
+        dispatch(deleteEvent(index))
+      } else {
+        console.log(response)
+      }
+    } catch(err) {
+      console.log(err)
     }
   }
 }
@@ -109,7 +145,7 @@ export const TodoContainer = () => {
     const isSuccess = useSelector<State, State['isSuccess']>((store) => store.isSuccess);
 
     function addTodo(text: string) {
-      dispatch(editingIndex === null ? saveTodo(text) : updateEvent(text))
+      dispatch(editingIndex === null ? saveTodo(text) : EditTodo(editingIndex, text, todos))
     }
     useEffect(() => {
       loadTodos(dispatch)
@@ -136,7 +172,7 @@ export const TodoContainer = () => {
                             dispatch(editEvent(index))
                         }}
                         onDoneClick={() => { dispatch(doneEvent(index)) }}
-                        onDeleteClick={() => { dispatch(deleteEvent(index))}}
+                        onDeleteClick={() => { dispatch(deleteTodo(index, todos))}}
                     />
                 )}
             </ul>
