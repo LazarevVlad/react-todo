@@ -102,23 +102,23 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
         todos: newtodos,
       }
     }
-    case 'SAVE_SUCCESS': {
+    case ACTION_TYPE.SAVE_SUCCESS: {
       return { ...state, isSuccess: true }
     }
 
-    case 'FAILED_EVENT': {
+    case ACTION_TYPE.FAILED_EVENT: {
       return { ...state, isSuccess: false }
     }
 
-    case 'FETCHING_SUCCESS': {
+    case ACTION_TYPE.FETCHING_SUCCESS: {
       return { ...state, todos: action.todos, isLoading: false}
     }
 
-    case 'FETCHING_TODOS_EVENT': {
+    case ACTION_TYPE.FETCHING_EVENT: {
       return { ...state, isLoading: true}
     }
 
-    case 'FETCHING_FAILED': {
+    case ACTION_TYPE.FETCHING_FAILED: {
       return { ...state, isLoading: false}
     }
       

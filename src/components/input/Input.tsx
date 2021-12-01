@@ -1,5 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import buttonStyles from '../button.module.css';
 import inputStyles from './input.module.css';
