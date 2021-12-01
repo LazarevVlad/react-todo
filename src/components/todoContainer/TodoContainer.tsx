@@ -61,38 +61,43 @@ function saveTodo(text: string) {
 }
 
 //@ts-ignore
-function loadTodos(dispatch) {
-    dispatch(fetchingTodosEvent())
-    return fetch('https://aqueous-brook-08387.herokuapp.com/todos')
-    .then(res => res.json())
-    .then(res => dispatch(fetchingSuccess(res)))
-    .catch(err => console.log(err))
+function loadTodos() {
+    // dispatch(fetchingTodosEvent())
+    // return fetch('https://aqueous-brook-08387.herokuapp.com/todos')
+    // .then(res => res.json())
+    // .then(res => dispatch(fetchingSuccess(res)))
+    // .catch(err => console.log(err))
     //@ts-ignore
-    // return async function fetchTodos(dispatch, getState) {
-    //     dispatch(fetchingTodosEvent())
-        
-    //     try {
-    //       const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos`)
-          
-    //       if (response.ok) {
-    //         console.log(response)
-    //         const res = await response.json();
-    //         //@ts-ignore
-    //         dispatch(fetchingSuccess(res))
-    //     } else {
-    //         dispatch(fetchingFailed())
-    //       }
-    //     } catch(err) {
-    //         dispatch(fetchingFailed())
-    //     }
-    // }
+    // console.log('1')
+    return async function fetchTodos(dispatch, getState) {
+        dispatch(fetchingTodosEvent())
+        try {
+          const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos`, {
+            'method': 'GET',
+            'headers': headers
+          })
+          console.log('response', response)
+          if (response.ok) {
+            console.log(response)
+            const res = await response.json();
+            //@ts-ignore
+            dispatch(fetchingSuccess(res))
+        } else {
+            dispatch(fetchingFailed())
+          }
+        } catch(err) {
+          console.log(err)
+            dispatch(fetchingFailed())
+        }
+    }
     
 }
 
-function EditTodo(index: number,text: string, todos: { id: any; }[]) {
-  let id = todos[index].id;
+function EditTodo(text: string) {
   //@ts-ignore
   return async function name(dispatch, getState) {
+    const { todos, editingIndex } = getState()
+    let { id } = todos[editingIndex];
     try {
       const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos/${id}`, {
         'method': 'PUT',
@@ -114,15 +119,13 @@ function EditTodo(index: number,text: string, todos: { id: any; }[]) {
   }
 }
 
-function deleteTodo(index: number, todos: { id: any; }[]) {
-  let id = todos[index].id;
-  console.log(id)
+function deleteTodo(index: number, todo: {id:string}) {
+  const id = todo.id;
   //@ts-ignore
   return async function deleteTodoThunk(dispatch, getState) {
     try {
       const response = await fetch(`https://aqueous-brook-08387.herokuapp.com/todos/${id}`, {
         'method': 'DELETE',
-        'headers' : headers,
       })
       if (response.ok) {
         dispatch(deleteEvent(index))
@@ -145,11 +148,11 @@ export const TodoContainer = () => {
     const isSuccess = useSelector<State, State['isSuccess']>((store) => store.isSuccess);
 
     function addTodo(text: string) {
-      dispatch(editingIndex === null ? saveTodo(text) : EditTodo(editingIndex, text, todos))
+      dispatch(editingIndex === null ? saveTodo(text) : EditTodo(text))
     }
     useEffect(() => {
-      loadTodos(dispatch)
-    }, [])
+      dispatch(loadTodos())
+    }, [dispatch])
 
     return (
         <div>
@@ -172,7 +175,7 @@ export const TodoContainer = () => {
                             dispatch(editEvent(index))
                         }}
                         onDoneClick={() => { dispatch(doneEvent(index)) }}
-                        onDeleteClick={() => { dispatch(deleteTodo(index, todos))}}
+                        onDeleteClick={() => { dispatch(deleteTodo(index, todos[index]))}}
                     />
                 )}
             </ul>
