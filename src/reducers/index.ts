@@ -71,7 +71,7 @@ export const reducer = (state: State = initialState, action: CustomAction): Stat
     case ACTION_TYPE.EDIT: {
         const index = action.editIndex
         const todo = state.todos[index]
-
+        console.log(action)
         return {
             ...state,
             input: todo.text,

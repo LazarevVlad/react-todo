@@ -49,7 +49,6 @@ function loadTodos() {
           })
           if (response.ok) {
             const res = await response.json();
-            //@ts-ignore
             dispatch(fetchingSuccess(res))
         } else {
             dispatch(fetchingFailed())
@@ -135,7 +134,6 @@ export const TodoContainer = () => {
     const todos = useSelector<State, State['todos']>((store) => store.todos);
     const input = useSelector<State, string>((store) => store.input);
     const editingIndex = useSelector<State, State['editingIndex']>((store) => store.editingIndex);
-    const isSuccess = useSelector<State, State['isSuccess']>((store) => store.isSuccess);
     const isLoading = useSelector<State, State['isLoading']>((store => store.isLoading));
 
     function addTodo(text: string) {
